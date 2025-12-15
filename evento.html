@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gran Confraternidad | Acción de Gracias</title>
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        /* Paleta Modo Claro */
+        --bg-body: #feffff;
+        --bg-secondary: #def2f1;
+        --text-main: #17252a;
+        --primary: #2b7a78;
+        --accent: #3aafa9;
+        --white: #ffffff;
+        --shadow: 0 10px 30px rgba(23, 37, 42, 0.08);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Lato", sans-serif;
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        overflow-x: hidden;
+        line-height: 1.6;
+        padding-top: 70px; /* Espacio para el navbar fijo */
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Playfair Display", serif;
+        color: var(--text-main);
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      ul {
+        list-style: none;
+      }
+
+      /* --- NAVBAR (Igual al Index pero adaptado) --- */
+      .main-header {
+        background-color: var(--white);
+        padding: 0.8rem 5%;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .logo span {
+        color: var(--accent);
+      }
+
+      nav ul {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      nav a {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text-main);
+        transition: var(--transition);
+      }
+
+      nav a:hover {
+        color: var(--accent);
+      }
+
+      /* Estilo para el botón activo del evento */
+      .nav-btn-active {
+        background-color: var(--accent);
+        color: var(--white) !important;
+        padding: 8px 20px;
+        border-radius: 20px;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary);
+      }
+
+      /* --- HERO SECTION --- */
+      .hero {
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(
+          180deg,
+          var(--bg-secondary) 0%,
+          var(--bg-body) 100%
+        );
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--accent) 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      .hero-content {
+        z-index: 1;
+        max-width: 800px;
+        animation: fadeInUp 1s ease;
+      }
+
+      .tagline {
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: inline-block;
+        background: rgba(58, 175, 169, 0.1);
+        padding: 5px 15px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
+      }
+      .date-highlight {
+        font-size: 1.5rem;
+        font-style: italic;
+        color: var(--accent);
+        margin-bottom: 2rem;
+      }
+
+      /* COUNTDOWN */
+      .countdown {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .time-box {
+        text-align: center;
+      }
+      .time-val {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1;
+        font-family: "Playfair Display", serif;
+      }
+      .time-lbl {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #777;
+        letter-spacing: 1px;
+      }
+
+      /* --- CARDS --- */
+      .info-grid {
+        padding: 4rem 10%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        background-color: var(--bg-body);
+      }
+      .clean-card {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: transform 0.3s ease;
+      }
+      .clean-card:hover {
+        transform: translateY(-10px);
+      }
+      .icon-box {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+        background: var(--bg-secondary);
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+      }
+      .moments-list {
+        list-style: none;
+        text-align: left;
+        margin-top: 1rem;
+        padding-left: 10px;
+      }
+      .moments-list li {
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 0.95rem;
+      }
+      .moments-list i {
+        color: var(--accent);
+        margin-right: 8px;
+      }
+
+      /* --- INTERACTIVE SECTION --- */
+      .interactive-section {
+        background-color: var(--bg-secondary);
+        padding: 5rem 5%;
+        text-align: center;
+        position: relative;
+      }
+      .wave-top {
+        position: absolute;
+        top: -50px;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: var(--bg-secondary);
+        clip-path: polygon(0 50%, 100% 0, 100% 100%, 0% 100%);
+      }
+      .games-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+      .game-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .promise-text {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 1.3rem;
+        color: var(--primary);
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 0;
+      }
+      .btn-game {
+        background-color: var(--primary);
+        color: var(--white);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.3s;
+      }
+      .btn-game:hover {
+        background-color: var(--accent);
+        box-shadow: 0 5px 15px rgba(58, 175, 169, 0.3);
+      }
+
+      .trivia-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        background: #f8f9fa;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.2s;
+        color: #555;
+      }
+      .trivia-btn:hover {
+        background: var(--bg-secondary);
+        border-color: var(--accent);
+      }
+      .feedback {
+        font-weight: bold;
+        min-height: 25px;
+        margin-top: 10px;
+      }
+      .correct {
+        color: #27ae60;
+      }
+      .incorrect {
+        color: #c0392b;
+      }
+
+      /* --- CTA --- */
+      .cta-section {
+        padding: 5rem 2rem;
+        text-align: center;
+        background: var(--white);
+      }
+      .btn-whatsapp {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #25d366;
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+        transition: transform 0.3s;
+      }
+      .btn-whatsapp:hover {
+        transform: scale(1.05);
+      }
+
+      footer {
+        background: var(--text-main);
+        color: #888;
+        text-align: center;
+        padding: 2rem;
+        font-size: 0.9rem;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* RESPONSIVE NAV */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.8rem;
+        }
+        .games-container {
+          grid-template-columns: 1fr;
+        }
+        .countdown {
+          gap: 1rem;
+        }
+        .time-val {
+          font-size: 2rem;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-btn {
+          display: block;
+        }
+        nav ul {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          background-color: var(--white);
+          padding: 1rem;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+          align-items: flex-start;
+        }
+        nav ul.show {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR (CONECTADO A INDEX.HTML) -->
+    <header class="main-header">
+      <div class="logo">Centro de <span>Restauración</span></div>
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav>
+        <ul id="nav-list">
+          <!-- Nota los enlaces hacia index.html -->
+          <li><a href="index.html#inicio">Inicio</a></li>
+          <li><a href="index.html#mensaje">Mensaje</a></li>
+          <li><a href="index.html#iglesia">Nuestra Iglesia</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+          <li><a href="#" class="nav-btn-active">Evento 26 Dic</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="tagline">Iglesia Centro de Restauración</span>
+        <h1>Unidos en Gratitud</h1>
+        <p class="date-highlight">26 de Diciembre • 7:00 PM</p>
+
+        <p
+          style="
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+          "
+        >
+          Una invitación especial para pastores y congregaciones hermanas. Ven a
+          compartir un tiempo de alabanza y hermandad.
+        </p>
+
+        <div class="countdown" id="countdown">
+          <div class="time-box">
+            <div class="time-val" id="days">00</div>
+            <div class="time-lbl">Días</div>
+          </div>
+          <div class="time-box"><div class="time-val">:</div></div>
+          <div class="time-box">
+            <div class="time-val" id="hours">00</div>
+            <div class="time-lbl">Horas</div>
+          </div>
+          <div class="time-box"><div class="time-val">:</div></div>
+          <div class="time-box">
+            <div class="time-val" id="min">00</div>
+            <div class="time-lbl">Min</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem">
+        <i
+          class="fas fa-arrow-down"
+          style="color: var(--primary); animation: bounce 2s infinite"
+        ></i>
+      </div>
+    </section>
+
+    <!-- INFO CARDS -->
+    <section class="info-grid">
+      <div class="clean-card">
+        <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+        <h3>Nuestra Ubicación</h3>
+        <p style="margin-top: 10px; color: #666">
+          Mz H Lote 23, Ciudad del Chofer<br />Chiclayo
+        </p>
+        <a
+          href="index.html#contacto"
+          style="
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 15px;
+          "
+          >Ver Mapa</a
+        >
+      </div>
+
+      <div class="clean-card">
+        <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+        <h3>El Encuentro</h3>
+        <p style="margin-top: 10px; color: #666">
+          Jueves, 26 de Diciembre<br />
+          <strong>Inicio: 7:00 PM</strong>
+        </p>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 5px">
+          Recepción desde las 6:30 PM
+        </p>
+      </div>
+
+      <div class="clean-card">
+        <div class="icon-box"><i class="fas fa-heart"></i></div>
+        <h3>Programa Especial</h3>
+        <ul class="moments-list">
+          <li><i class="fas fa-music"></i> Tiempo de Alabanza</li>
+          <li><i class="fas fa-bible"></i> Palabra de Edificación</li>
+          <li><i class="fas fa-hand-holding-heart"></i> Compartir Fraternal</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE SECTION -->
+    <section class="interactive-section">
+      <div class="wave-top"></div>
+      <h2 style="margin-bottom: 0.5rem">Espacio Interactivo</h2>
+      <p style="margin-bottom: 3rem; color: #666">
+        Prepara tu corazón con estas dinámicas.
+      </p>
+
+      <div class="games-container">
+        <!-- DINAMICA 1 -->
+        <div class="game-card">
+          <h3 style="color: var(--text-main)">
+            <i class="fas fa-gift" style="color: var(--accent)"></i> Caja de
+            Promesas
+          </h3>
+          <div class="promise-text" id="verse-text">
+            "Descubre hoy la palabra que Dios tiene para tu vida."
+          </div>
+          <button class="btn-game" onclick="getPromise()">Abrir Promesa</button>
+        </div>
+
+        <!-- DINAMICA 2 -->
+        <div class="game-card">
+          <h3 style="color: var(--text-main); margin-bottom: 1rem">
+            <i class="fas fa-question-circle" style="color: var(--accent)"></i>
+            Trivia Bíblica
+          </h3>
+          <div id="quiz-container">
+            <p
+              id="question-text"
+              style="
+                font-weight: bold;
+                margin-bottom: 1rem;
+                font-size: 1.1rem;
+                color: #444;
+              "
+            >
+              Pregunta...
+            </p>
+            <div id="options-container"></div>
+            <div id="feedback" class="feedback"></div>
+            <button
+              id="next-btn"
+              class="btn-game"
+              style="
+                margin-top: 15px;
+                font-size: 0.8rem;
+                padding: 8px 20px;
+                display: none;
+              "
+              onclick="nextQuestion()"
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-section">
+      <h2 style="margin-bottom: 1rem">Confirma la Asistencia de tu Iglesia</h2>
+      <p
+        style="
+          margin-bottom: 2rem;
+          color: #666;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        Nos encantaría saber cuántos hermanos nos acompañarán para preparar todo
+        con excelencia.
+      </p>
+      <a
+        href="https://wa.me/51920620788?text=Hola,%20bendiciones.%20Confirmamos%20asistencia%20para%20el%20evento%20del%2026."
+        class="btn-whatsapp"
+        target="_blank"
+      >
+        <i class="fab fa-whatsapp" style="font-size: 1.5rem"></i> Confirmar por
+        WhatsApp
+      </a>
+    </section>
+
+    <footer>
+      <p>
+        &copy; 2025 Iglesia Cristiana Centro de Restauración - Chiclayo, Perú
+      </p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+      // MENU MOVIL
+      function toggleMenu() {
+        var nav = document.getElementById("nav-list");
+        nav.classList.toggle("show");
+      }
+
+      // COUNTDOWN
+      const eventDate = new Date("December 26, 2025 19:00:00").getTime();
+      setInterval(() => {
+        const now = new Date().getTime();
+        const diff = eventDate - now;
+        if (diff > 0) {
+          document.getElementById("days").innerText = Math.floor(
+            diff / (1000 * 60 * 60 * 24)
+          );
+          document.getElementById("hours").innerText = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          document.getElementById("min").innerText = Math.floor(
+            (diff % (1000 * 60 * 60)) / (1000 * 60)
+          );
+        }
+      }, 1000);
+
+      // PROMESAS
+      const promises = [
+        "Clama a mí, y yo te responderé, y te enseñaré cosas grandes. (Jer 33:3)",
+        "He aquí que yo estoy contigo, y te guardaré por dondequiera. (Gén 28:15)",
+        "Mi paz os dejo, mi paz os doy. (Juan 14:27)",
+        "Esforzaos y cobrad ánimo; no temáis. (Deut 31:6)",
+        "Cercano está Jehová a los quebrantados de corazón. (Sal 34:18)",
+      ];
+      function getPromise() {
+        const el = document.getElementById("verse-text");
+        el.style.opacity = 0;
+        setTimeout(() => {
+          el.innerText = promises[Math.floor(Math.random() * promises.length)];
+          el.style.opacity = 1;
+        }, 300);
+      }
+
+      // TRIVIA
+      const questions = [
+        {
+          q: "¿Quién abrió el Mar Rojo?",
+          a: [
+            { t: "Moisés (por Dios)", c: true },
+            { t: "Josué", c: false },
+            { t: "David", c: false },
+          ],
+        },
+        {
+          q: "¿Dónde nació Jesús?",
+          a: [
+            { t: "Nazaret", c: false },
+            { t: "Belén", c: true },
+            { t: "Jerusalén", c: false },
+          ],
+        },
+        {
+          q: "¿Cuántos discípulos tenía Jesús?",
+          a: [
+            { t: "10", c: false },
+            { t: "12", c: true },
+            { t: "7", c: false },
+          ],
+        },
+      ];
+      let qIdx = 0;
+
+      function loadQ() {
+        if (qIdx >= questions.length) {
+          document.getElementById("quiz-container").innerHTML =
+            "<h3 style='color:var(--primary)'>¡Gracias por participar!</h3>";
+          return;
+        }
+        const q = questions[qIdx];
+        document.getElementById("question-text").innerText = q.q;
+        const c = document.getElementById("options-container");
+        c.innerHTML = "";
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("next-btn").style.display = "none";
+
+        q.a.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.className = "trivia-btn";
+          btn.innerText = opt.t;
+          btn.onclick = () => check(btn, opt.c);
+          c.appendChild(btn);
+        });
+      }
+
+      function check(btn, isC) {
+        const f = document.getElementById("feedback");
+        document
+          .querySelectorAll(".trivia-btn")
+          .forEach((b) => (b.disabled = true));
+        if (isC) {
+          btn.style.background = "#d4edda";
+          btn.style.borderColor = "#28a745";
+          f.innerText = "¡Correcto!";
+          f.className = "feedback correct";
+        } else {
+          btn.style.background = "#f8d7da";
+          btn.style.borderColor = "#dc3545";
+          f.innerText = "Intenta de nuevo en el evento.";
+          f.className = "feedback incorrect";
+        }
+        document.getElementById("next-btn").style.display = "inline-block";
+      }
+
+      function nextQuestion() {
+        qIdx++;
+        loadQ();
+      }
+      window.onload = loadQ;
+    </script>
+  </body>
+</html>

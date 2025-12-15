@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro de Restauración | Jesús Restaura Familias</title>
+    <!-- Fuentes de Google: Playfair Display (Institucional) y Lato (Legibilidad) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Iconos FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <style>
+      /* --- VARIABLES CSS (Paleta de Color) --- */
+      :root {
+        --dark-blue: #17252a;
+        --deep-teal: #2b7a78;
+        --medium-teal: #3aafa9;
+        --light-teal: #def2f1;
+        --white-pure: #feffff;
+        --shadow: 0 10px 30px rgba(23, 37, 42, 0.15);
+        --transition: all 0.3s ease;
+      }
+
+      /* --- RESET & BASE --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Lato", sans-serif;
+        color: var(--dark-blue);
+        background-color: var(--white-pure);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Playfair Display", serif;
+        color: var(--dark-blue);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      ul {
+        list-style: none;
+      }
+
+      /* --- BOTONES --- */
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: var(--transition);
+        cursor: pointer;
+        border: none;
+      }
+
+      .btn-primary {
+        background-color: var(--deep-teal);
+        color: var(--white-pure);
+        box-shadow: 0 4px 15px rgba(43, 122, 120, 0.4);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--medium-teal);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        border: 2px solid var(--white-pure);
+        color: var(--white-pure);
+        background: transparent;
+      }
+
+      .btn-outline:hover {
+        background: var(--white-pure);
+        color: var(--deep-teal);
+      }
+
+      /* --- HEADER & NAV --- */
+      header {
+        background-color: var(--white-pure);
+        padding: 1rem 5%;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--deep-teal);
+      }
+
+      .logo span {
+        color: var(--medium-teal);
+      }
+
+      nav ul {
+        display: flex;
+        gap: 2rem;
+      }
+
+      nav a {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--dark-blue);
+        transition: var(--transition);
+      }
+
+      nav a:hover {
+        color: var(--medium-teal);
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* --- HERO SECTION --- */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(
+            135deg,
+            rgba(23, 37, 42, 0.9),
+            rgba(43, 122, 120, 0.8)
+          ),
+          url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 1rem;
+        margin-top: 60px;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        color: var(--white-pure);
+        animation: fadeIn Up 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--white-pure);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        font-weight: 300;
+      }
+
+      /* --- MENSAJE DE BIENVENIDA --- */
+      .message-section {
+        padding: 5rem 10%;
+        background-color: var(--white-pure);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .message-img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .message-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--deep-teal);
+        position: relative;
+      }
+
+      .message-text h2::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--medium-teal);
+        margin-top: 10px;
+      }
+
+      .message-text p {
+        margin-bottom: 1rem;
+        color: #555;
+        text-align: justify;
+      }
+
+      /* --- VERSICULO --- */
+      .verse-section {
+        background-color: var(--light-teal);
+        padding: 4rem 10%;
+        text-align: center;
+        border-left: 10px solid var(--medium-teal);
+      }
+
+      .verse-text {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-style: italic;
+        color: var(--dark-blue);
+        margin-bottom: 1rem;
+      }
+
+      .verse-ref {
+        font-weight: 700;
+        color: var(--deep-teal);
+        font-size: 1.2rem;
+      }
+
+      /* --- INTERACTIVE TABS (Historia, Mision, Vision) --- */
+      .about-section {
+        padding: 5rem 10%;
+        background-color: var(--white-pure);
+      }
+
+      .tabs-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: var(--white-pure);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .tabs-header {
+        display: flex;
+        background-color: var(--light-teal);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 700;
+        color: var(--dark-blue);
+        transition: var(--transition);
+        border-bottom: 4px solid transparent;
+      }
+
+      .tab-btn:hover {
+        background-color: rgba(58, 175, 169, 0.1);
+      }
+
+      .tab-btn.active {
+        color: var(--deep-teal);
+        border-bottom: 4px solid var(--deep-teal);
+        background-color: var(--white-pure);
+      }
+
+      .tab-content {
+        padding: 2.5rem;
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+      .tab-content h3 {
+        margin-bottom: 1rem;
+        color: var(--deep-teal);
+      }
+      .tab-content p {
+        margin-bottom: 1rem;
+        text-align: justify;
+      }
+
+      /* --- CONTACTO & UBICACION --- */
+      .contact-section {
+        background-color: var(--dark-blue);
+        color: var(--white-pure);
+        padding: 5rem 10%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+
+      .contact-info h2 {
+        color: var(--medium-teal);
+        margin-bottom: 1.5rem;
+      }
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+      }
+      .contact-item i {
+        color: var(--medium-teal);
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        margin-top: 5px;
+      }
+
+      .map-container iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        border-radius: 10px;
+      }
+
+      /* --- FOOTER --- */
+      footer {
+        background-color: #0b1214;
+        color: #888;
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      /* --- WHATSAPP FLOAT --- */
+      .whatsapp-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #25d366;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        transition: var(--transition);
+      }
+
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        background-color: #128c7e;
+      }
+
+      /* --- ANIMACIONES --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal {
+        position: relative;
+        transform: translateY(50px);
+        opacity: 0;
+        transition: 1s all ease;
+      }
+      .reveal.active {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+        .message-section,
+        .contact-section {
+          grid-template-columns: 1fr;
+        }
+        .mobile-menu-btn {
+          display: block;
+        }
+        nav ul {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background-color: var(--white-pure);
+          padding: 1rem;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        nav ul.show {
+          display: flex;
+        }
+        .message-img {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+
+    <header>
+      <div class="logo">Centro de <span>Restauración</span></div>
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav>
+        <ul id="nav-list">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#mensaje">Mensaje</a></li>
+          <li><a href="#iglesia">Nuestra Iglesia</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <!-- Nuevo botón enlazado al evento -->
+          <li>
+            <a
+              href="evento.html"
+              style="
+                background: var(--deep-teal);
+                color: #fff;
+                padding: 8px 20px;
+                border-radius: 20px;
+              "
+            >
+              Evento 26 Dic
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+      <div class="hero-content">
+        <h1>Jesús Restaura las Familias</h1>
+        <p>
+          Descubre el propósito de Dios para tu hogar. Un lugar de fe, esperanza
+          y transformación.
+        </p>
+        <a
+          href="https://wa.me/51920620788"
+          class="btn btn-primary"
+          target="_blank"
+          >Pedir Oración</a
+        >
+      </div>
+    </section>
+
+    <!-- Mensaje Section -->
+    <section id="mensaje" class="message-section reveal">
+      <div class="message-text">
+        <h2>Esperanza para tu Hogar</h2>
+        <p>
+          En un mundo lleno de desafíos y adversidades, es fácil perder de vista
+          lo que realmente importa: nuestras relaciones familiares. Pero estamos
+          aquí para recordar que no estamos solos en este viaje. Tenemos a un
+          Dios amoroso que camina con nosotros en cada paso del camino.
+        </p>
+        <p>
+          Queridas familias, no importa cuán fracturadas puedan parecer nuestras
+          relaciones, hay esperanza en Dios. Él es capaz de sanar heridas
+          profundas y restaurar lo que parecía perdido. No hay problema
+          demasiado grande para Su amor y Su poder.
+        </p>
+        <p>
+          <strong
+            >Que hoy sea el comienzo de un nuevo capítulo en la vida de tu
+            familia.</strong
+          >
+        </p>
+      </div>
+      <img
+        src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1250&q=80"
+        alt="Familia Unida"
+        class="message-img"
+      />
+    </section>
+
+    <!-- Versiculo Anchor -->
+    <section class="verse-section reveal">
+      <p class="verse-text">
+        "Cree en el Señor Jesucristo, y serás salvo, tú y tu casa."
+      </p>
+      <p class="verse-ref">Hechos 16:31</p>
+    </section>
+
+    <!-- Interactive Tabs Section (Historia, Mision, Vision) -->
+    <section id="iglesia" class="about-section reveal">
+      <div class="tabs-container">
+        <div class="tabs-header">
+          <div class="tab-btn active" onclick="openTab(event, 'historia')">
+            Historia
+          </div>
+          <div class="tab-btn" onclick="openTab(event, 'mision')">Misión</div>
+          <div class="tab-btn" onclick="openTab(event, 'vision')">Visión</div>
+        </div>
+
+        <div id="historia" class="tab-content active">
+          <h3>10 Años de Victoria</h3>
+          <p>
+            La Iglesia Cristiana Centro de Restauración se fundó el
+            <strong>27 de enero del 2015</strong>, bajo el liderazgo del Pastor
+            Brigadiel Cerna Ravines. Nuestros inicios fueron humildes,
+            reuniéndonos primero en la casa del pastor y luego en un local
+            alquilado.
+          </p>
+          <p>
+            En 2017, debido al fenómeno del Niño, enfrentamos grandes desafíos,
+            regresando temporalmente a congregar en casa. Sin embargo, ese mismo
+            año, con fe inquebrantable, iniciamos la construcción de nuestro
+            templo propio. A pesar de las lluvias y obstáculos, con la ayuda del
+            Señor Todopoderoso, inauguramos nuestro templo central en marzo de
+            2018.
+          </p>
+          <p>
+            Hoy celebramos 10 años de victoria en Cristo, contando con un anexo
+            en el PP. JJ Lagunas de Pomalca. ¡Ebenezer, hasta aquí nos ayudó
+            Jehová!
+          </p>
+        </div>
+
+        <div id="mision" class="tab-content">
+          <h3>Nuestra Misión</h3>
+          <p>
+            Nuestra misión es llevar el mensaje de amor, esperanza y redención
+            de Jesucristo a todas las personas, buscando transformar vidas
+            mediante el poder del Evangelio.
+          </p>
+          <p>
+            Nos comprometemos a ser una comunidad de fe que brinda apoyo,
+            aliento y enseñanza bíblica, guiando a las personas hacia una
+            relación personal con Dios y equipándolas para servir y amar a
+            otros.
+          </p>
+        </div>
+
+        <div id="vision" class="tab-content">
+          <h3>Nuestra Visión</h3>
+          <p>
+            Aspiramos a ser un faro de luz en nuestra comunidad, reflejando el
+            amor y la gracia de Dios en todo lo que hacemos. Buscamos ser un
+            lugar donde los perdidos encuentren salvación, los heridos sean
+            sanados, los cautivos sean liberados y los quebrantados sean
+            restaurados.
+          </p>
+          <p>
+            Visualizamos una iglesia vibrante y dinámica, comprometida con el
+            crecimiento espiritual, el servicio generoso y la unidad en la
+            diversidad, impactando positivamente en nuestras familias,
+            vecindarios y más allá, para la gloria de Dios.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact-section reveal">
+      <div class="contact-info">
+        <h2>Visítanos</h2>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <p>
+            Mz H Lote 23 Ciudad del Chofer<br />Chiclayo - Lambayeque - Perú
+          </p>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-whatsapp"></i>
+          <p>
+            +51 920 620 788<br /><span style="font-size: 0.9em; opacity: 0.8"
+              >Pedidos de oración totalmente gratuitos</span
+            >
+          </p>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-facebook"></i>
+          <p>
+            <a
+              href="https://www.facebook.com/iglesiacrentroderestauracion/"
+              target="_blank"
+              style="text-decoration: underline"
+              >Síguenos en Facebook</a
+            >
+          </p>
+        </div>
+        <div style="margin-top: 2rem">
+          <p><strong>Pastor Principal:</strong> Hno. Brigadiel Cerna Ravines</p>
+        </div>
+      </div>
+      <div class="map-container">
+        <!-- Placeholder Map pointing to Chiclayo general area since streetview might vary -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.333932679824!2d-79.8351!3d-6.7719!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904ceda27c3d1f05%3A0x1f8d8d8d8d8d8d8d!2sChiclayo!5e0!3m2!1ses!2spe!4v1620000000000!5m2!1ses!2spe"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        &copy; 2025 Iglesia Cristiana Centro de Restauración. Todos los derechos
+        reservados.
+      </p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a
+      href="https://wa.me/51920620788"
+      class="whatsapp-float"
+      target="_blank"
+      title="Contáctanos por WhatsApp"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts para Interactividad -->
+    <script>
+      // Función para cambiar Pestañas (Tabs)
+      function openTab(evt, tabName) {
+        var i, tabContent, tabBtn;
+
+        // Ocultar todo el contenido
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) {
+          tabContent[i].style.display = "none";
+          tabContent[i].classList.remove("active");
+        }
+
+        // Quitar clase activa de los botones
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) {
+          tabBtn[i].className = tabBtn[i].className.replace(" active", "");
+        }
+
+        // Mostrar el tab actual y añadir clase activa al botón
+        document.getElementById(tabName).style.display = "block";
+        // Pequeño timeout para permitir la animación CSS
+        setTimeout(() => {
+          document.getElementById(tabName).classList.add("active");
+        }, 10);
+        evt.currentTarget.className += " active";
+      }
+
+      // Menu Movil
+      function toggleMenu() {
+        var nav = document.getElementById("nav-list");
+        nav.classList.toggle("show");
+      }
+
+      // Animación al hacer Scroll (Intersection Observer)
+      window.addEventListener("scroll", reveal);
+
+      function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+
+        for (var i = 0; i < reveals.length; i++) {
+          var windowheight = window.innerHeight;
+          var revealtop = reveals[i].getBoundingClientRect().top;
+          var revealpoint = 150;
+
+          if (revealtop < windowheight - revealpoint) {
+            reveals[i].classList.add("active");
+          } else {
+            reveals[i].classList.remove("active");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
