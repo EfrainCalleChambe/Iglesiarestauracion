@@ -11,295 +11,368 @@
 
     <style>
         :root {
-            --bg-deep: #000a12;
+            /* Paleta de Colores Cyber-Gospel */
+            --bg-dark: #020b14;
             --neon-cyan: #00E5FF;
-            --neon-purple: #bd00ff;
+            --neon-blue: #2979FF;
             --text-white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-deep);
+            background-color: var(--bg-dark);
+            /* Fondo con profundidad radial */
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(41, 121, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 50% 10%, #05263b 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(0, 229, 255, 0.05) 0%, transparent 40%);
             color: var(--text-white);
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        /* --- FONDO MALLA --- */
-        .grid-bg {
+        /* Patrón de Malla de fondo */
+        .grid-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
             z-index: 0;
+            pointer-events: none;
         }
 
-        .container {
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 20px;
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* Espacio constante entre secciones */
         }
 
         /* --- HEADER --- */
-        header { text-align: center; padding-top: 1rem; position: relative; z-index: 20; }
+        header {
+            text-align: center;
+            padding-top: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
 
-        .top-label {
-            color: var(--neon-cyan); letter-spacing: 5px; text-transform: uppercase;
-            font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;
-            display: inline-block; border-bottom: 1px solid var(--neon-cyan); padding-bottom: 5px;
+        .top-badge {
+            display: inline-block;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            background: rgba(0, 229, 255, 0.1);
         }
 
         h1 {
-            font-size: clamp(3rem, 7vw, 6rem);
-            font-weight: 900; line-height: 0.9; text-transform: uppercase; margin: 0;
-            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            position: relative;
-        }
-        
-        h1 span {
-            color: transparent; -webkit-text-stroke: 1px var(--neon-cyan);
-            font-style: italic; display: block;
+            font-size: clamp(2.5rem, 6vw, 5rem); /* Tipografía adaptable */
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(180deg, #ffffff 20%, #90caf9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- EFECTO INTERACTIVO DEL PASTOR --- */
-        .hero-interaction {
+        h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--neon-cyan);
+            font-style: italic;
+        }
+
+        /* --- SECCIÓN INTERACTIVA (HERO) --- */
+        .hero-showcase {
             position: relative;
-            height: 600px;
             width: 100%;
-            max-width: 600px;
-            margin: -20px auto 0 auto;
+            /* Altura dinámica: ocupa espacio pero no fuerza scroll excesivo */
+            height: clamp(400px, 60vh, 600px); 
             display: flex;
             justify-content: center;
-            align-items: flex-end;
-            cursor: pointer; /* Indica que es interactivo */
+            align-items: flex-end; /* Alinea imagen al piso del contenedor */
+            margin-top: 10px;
         }
 
-        /* El brillo de fondo */
-        .glow-halo {
+        /* Halo de luz detrás del pastor */
+        .glow-bg {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.3) 0%, transparent 70%);
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
             border-radius: 50%;
+            z-index: 0;
             transition: all 0.5s ease;
-            z-index: 1;
         }
 
-        /* Contenedor de las imágenes */
-        .img-wrapper {
+        /* Wrapper de imágenes para manejar la superposición */
+        .image-wrapper {
             position: relative;
             width: 100%;
             height: 100%;
+            max-width: 600px; /* Límite de ancho para que no se pixelee */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
             z-index: 2;
+            cursor: pointer;
         }
 
         .pastor-img {
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
             height: 100%;
             width: auto;
-            object-fit: contain;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
-            /* Máscara suave abajo */
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            max-width: 100%;
+            object-fit: contain; /* Asegura que la imagen se vea completa */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Estados de las imágenes */
-        .img-idle { opacity: 1; transform: translateX(-50%) scale(1); }
-        .img-active { opacity: 0; transform: translateX(-50%) scale(1.1); }
+        /* Estados de animación */
+        .img-state-1 { opacity: 1; transform: scale(1); }
+        .img-state-2 { opacity: 0; transform: scale(1.05); }
 
-        /* INTERACCIÓN HOVER: La magia ocurre aquí */
-        .hero-interaction:hover .img-idle {
+        /* INTERACCIÓN (Hover y Click) */
+        .image-wrapper:hover .img-state-1, 
+        .image-wrapper:active .img-state-1 {
             opacity: 0;
-            transform: translateX(-50%) scale(0.95);
         }
 
-        .hero-interaction:hover .img-active {
+        .image-wrapper:hover .img-state-2,
+        .image-wrapper:active .img-state-2 {
             opacity: 1;
-            transform: translateX(-50%) scale(1);
+        }
+        
+        /* Efecto en el fondo al interactuar */
+        .image-wrapper:hover ~ .glow-bg {
+            background: radial-gradient(circle, rgba(130, 87, 229, 0.3) 0%, transparent 70%); /* Cambia a morado */
+            width: 400px; height: 400px;
         }
 
-        .hero-interaction:hover .glow-halo {
-            background: radial-gradient(circle, rgba(189, 0, 255, 0.4) 0%, transparent 70%); /* Cambia a morado */
-            width: 500px; height: 500px;
-        }
-
-        /* Icono de indicación */
-        .interaction-hint {
+        /* Indicador de "Tócame" */
+        .touch-hint {
             position: absolute;
-            top: 50%; right: 10%;
+            top: 20%; right: 10%;
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            padding: 10px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
             border-radius: 30px;
             font-size: 0.8rem;
-            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
             z-index: 10;
-            animation: bounce 2s infinite;
+            animation: floatHint 3s infinite ease-in-out;
             pointer-events: none;
         }
 
-        /* --- TARJETAS --- */
-        .info-grid {
+        /* Nombre Flotante */
+        .name-label {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(2, 11, 20, 0.8);
+            border: 1px solid var(--neon-cyan);
+            padding: 10px 30px;
+            border-radius: 4px;
+            text-align: center;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            /* Transformación para estilo futurista */
+            transform: skewX(-10deg);
+        }
+        .name-label h3 { margin: 0; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; transform: skewX(10deg); }
+        .name-label span { color: var(--neon-cyan); font-size: 0.75rem; letter-spacing: 2px; transform: skewX(10deg); display: block;}
+
+        /* --- CARDS INFORMATIVAS --- */
+        .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            position: relative;
-            z-index: 5;
-            margin-top: -50px; /* Superponer */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            /* Eliminamos márgenes negativos para evitar superposición */
+            margin-top: 10px; 
         }
 
         .glass-card {
-            background: rgba(16, 26, 41, 0.7);
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px 20px;
+            border-radius: 16px;
             text-align: center;
-            transition: 0.3s;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .glass-card:hover {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
             transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 5px 20px rgba(0, 229, 255, 0.1);
         }
 
-        .highlight-data {
-            font-size: 2.2rem; font-weight: 800; color: #fff;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
+        .card-icon { font-size: 2rem; color: var(--neon-cyan); margin-bottom: 15px; }
+        .card-title { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .card-info { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .card-sub { font-size: 0.9rem; color: var(--neon-cyan); margin-top: 5px; }
+
+        /* Highlight especial para la fecha */
+        .card-highlight {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- BOTONES --- */
+        /* --- CTA Y FOOTER --- */
+        .cta-section {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--glass-border);
+        }
+
         .btn-neon {
-            background: var(--neon-cyan); color: #000;
-            padding: 15px 50px; font-weight: 800; text-transform: uppercase;
-            text-decoration: none; display: inline-block;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-            margin-top: 3rem; transition: 0.3s;
+            background: var(--neon-cyan);
+            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            border-radius: 4px; /* Bordes rectos para look tech */
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+            letter-spacing: 1px;
         }
+
         .btn-neon:hover {
+            background: #fff;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
             transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 229, 255, 0.8);
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: auto;
         }
 
-        /* Responsive ajustes */
+        @keyframes floatHint {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- RESPONSIVE QUERIES --- */
         @media (max-width: 768px) {
-            .hero-interaction { height: 450px; }
-            .interaction-hint { top: 20%; right: 5%; }
-            .info-grid { margin-top: 0; }
+            .main-container { gap: 30px; padding: 15px; }
+            
+            /* Ajuste Header */
+            h1 { font-size: 3rem; }
+            
+            /* Ajuste Hero Móvil */
+            .hero-showcase { height: 400px; } /* Menos altura en móvil */
+            .touch-hint { top: 10%; right: 0; left: 0; width: fit-content; margin: auto; }
+            
+            /* Ajuste Imagen */
+            .pastor-img { max-width: 90%; }
+            
+            /* Ajuste Cards */
+            .cards-container { grid-template-columns: 1fr; } /* Una columna */
+            .glass-card { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="grid-bg"></div>
+    <div class="grid-overlay"></div>
 
-    <div class="container">
+    <div class="main-container">
         
+        <!-- ENCABEZADO -->
         <header>
-            <div class="top-label">III Confraternidad Anual</div>
+            <div class="top-badge">III Confraternidad Anual</div>
             <h1>TERCER CULTO <br><span>UNIDO</span></h1>
+            <p style="color: #aaa; letter-spacing: 2px; font-size: 0.9rem;">MENSAJE DE AMOR Y ESPERANZA</p>
         </header>
 
-        <!-- SECCIÓN INTERACTIVA HERO -->
-        <div class="hero-interaction" title="Toca o pasa el mouse para ver">
-            <div class="glow-halo"></div>
+        <!-- HÉROE INTERACTIVO (PASTOR) -->
+        <section class="hero-showcase">
+            <div class="image-wrapper" title="Interactúa con la imagen">
+                <!-- Indicador para usuarios nuevos -->
+                <div class="touch-hint"><i class="fas fa-hand-pointer"></i> Tócame</div>
+                
+                <!-- IMAGEN 1: Estado Normal (Rostro/Micrófono) -->
+                <img src="pastor_rostro.png" class="pastor-img img-state-1" alt="Pastor Predicando">
+                
+                <!-- IMAGEN 2: Estado Acción (Brazo Alzado) -->
+                <img src="pastor_pulpito.png" class="pastor-img img-state-2" alt="Pastor Victoria">
+
+                <!-- Etiqueta Nombre -->
+                <div class="name-label">
+                    <h3>Ps. Jose Chuzón</h3>
+                    <span>PREDICADOR INVITADO</span>
+                </div>
+            </div>
             
-            <!-- Indicador Visual para el usuario -->
-            <div class="interaction-hint">
-                <i class="fas fa-fingerprint"></i> Tócame
-            </div>
+            <!-- Brillo de fondo -->
+            <div class="glow-bg"></div>
+        </section>
 
-            <div class="img-wrapper">
-                <!-- IMAGEN 1: ROSTRO (Estado Inicial) -->
-                <!-- Asegúrate de que esta imagen sea la del primer plano con micrófono -->
-                <img src="pastor_rostro.png" class="pastor-img img-idle" alt="Ps. Jose Chuzón Rostro">
-
-                <!-- IMAGEN 2: PULPITO (Estado Activo al pasar mouse) -->
-                <!-- Asegúrate de que esta imagen sea la del brazo alzado -->
-                <img src="pastor_pulpito.png" class="pastor-img img-active" alt="Ps. Jose Chuzón Predicando">
-            </div>
-
-            <!-- Etiqueta del nombre -->
-            <div style="position: absolute; bottom: 20px; text-align: center; z-index: 10;">
-                <h3 style="font-size: 1.5rem; text-transform: uppercase; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Ps. Jose Chuzón</h3>
-                <span style="color: var(--neon-cyan); letter-spacing: 2px; font-size: 0.8rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 2px 10px; border-radius: 10px;">PREDICADOR INVITADO</span>
-            </div>
-        </div>
-
-        <!-- INFORMACIÓN -->
-        <div class="info-grid">
+        <!-- TARJETAS INFORMATIVAS (GRID LIMPIO) -->
+        <section class="cards-container">
+            <!-- Card 1 -->
             <div class="glass-card">
-                <i class="fas fa-music" style="color:var(--neon-cyan); font-size:1.5rem; margin-bottom:10px;"></i>
-                <div style="color:#aaa; font-size:0.9rem; text-transform:uppercase;">Adoración</div>
-                <div style="font-size:1.2rem; font-weight:600;">Trío Restauración</div>
+                <i class="fas fa-guitar card-icon"></i>
+                <div class="card-title">Adoración</div>
+                <div class="card-info">Trío Restauración</div>
+                <div class="card-sub">& Ministerios Invitados</div>
             </div>
 
-            <div class="glass-card" style="border-top: 3px solid var(--neon-cyan);">
-                <i class="far fa-calendar-alt" style="color:var(--neon-cyan); font-size:1.5rem; margin-bottom:10px;"></i>
-                <div style="color:#aaa; font-size:0.9rem; text-transform:uppercase;">Fecha Gloriosa</div>
-                <div class="highlight-data">26 DIC</div>
-                <div style="font-weight:700;">7:00 PM</div>
+            <!-- Card 2 (Fecha) -->
+            <div class="glass-card" style="border-color: rgba(0, 229, 255, 0.3);">
+                <i class="far fa-calendar-check card-icon"></i>
+                <div class="card-title">Gran Día</div>
+                <div class="card-highlight">26 DIC</div>
+                <div class="card-info">7:00 PM</div>
             </div>
 
+            <!-- Card 3 -->
             <div class="glass-card">
-                <i class="fas fa-map-marked-alt" style="color:var(--neon-cyan); font-size:1.5rem; margin-bottom:10px;"></i>
-                <div style="color:#aaa; font-size:0.9rem; text-transform:uppercase;">Lugar</div>
-                <div style="font-size:1rem; font-weight:600;">Mz H Lt 23, Ciudad del Chofer</div>
-                <div style="font-size:0.8rem; color:var(--neon-cyan);">Chiclayo</div>
+                <i class="fas fa-map-pin card-icon"></i>
+                <div class="card-title">Ubicación</div>
+                <div class="card-info" style="font-size: 1.1rem;">Mz H Lt 23, Ciudad del Chofer</div>
+                <div class="card-sub">Ref: Paradero Combis S. Bolívar</div>
             </div>
-        </div>
+        </section>
 
-        <div style="text-align: center; padding-bottom: 4rem;">
+        <!-- CTA Y CIERRE -->
+        <section class="cta-section">
             <a href="https://wa.me/51920620788" class="btn-neon">
-                Confirmar Asistencia
+                Confirmar Asistencia <i class="fas fa-check-circle" style="margin-left: 10px;"></i>
             </a>
             <br><br>
-            <p style="opacity: 0.6; font-size: 0.9rem;">
-                <i class="fas fa-map-pin"></i> Ref: Paradero de Combis Simón Bolívar
-            </p>
-        </div>
+            <footer>
+                <p>&copy; 2025 Iglesia Cristiana Centro de Restauración</p>
+                <p style="font-style: italic; opacity: 0.5; margin-top: 5px;">"Habitar los hermanos juntos en armonía"</p>
+            </footer>
+        </section>
 
     </div>
 
-    <script>
-        // Pequeño script para mover el brillo con el mouse (Efecto sutil)
-        const container = document.querySelector('.hero-interaction');
-        const glow = document.querySelector('.glow-halo');
-
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Mover el brillo ligeramente hacia el mouse
-            glow.style.transform = `translate(-50%, -50%) translate(${(x - rect.width/2)/10}px, ${(y - rect.height/2)/10}px)`;
-        });
-
-        container.addEventListener('mouseleave', () => {
-            glow.style.transform = `translate(-50%, -50%)`;
-        });
-    </script>
 </body>
 </html>
